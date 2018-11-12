@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<title>Hello World</title>
+	<script type="text/javascript" src='vue.js'></script>
+</head>
+<body>
+   <div id="app">
+<!--      <input type="text" name="" v-model='inputValue'>
+     <button v-on:click='handleClickBtn'>提交</button>
+     <ul>
+       <todo-item v-for="(item,index) in list"
+                  v-bind:content='item'
+                  v-bind:index='index'
+                  @delete='handleItemDelete'>
+        </todo-item>
+     </ul> -->
+     {{fullName +age}}
+   </div>
+
+   <script type="text/javascript">
+
+    //父子组件传值
+    //父组件通过v-bind传值给子组件，子组件通过props接受
+    //子组件通过$emit()向外触发事件，并可以传值给父组件
+
+
+     //全局注册组件
+     // Vue.component('TodoItem',{
+     // 	props:['content'],
+     // 	template:"<li>{{content}}</li>",
+     // })
+     
+     //局部注册组件
+     // var TodoItem={
+     // 	props:['content','index'],
+     // 	template:"<li v-on:click='handleItemClick'>{{content}}</li>",
+     // 	methods:{
+     // 		handleItemClick:function(){
+     // 			this.$emit('delete',this.index);
+     // 		}
+     // 	}
+     // }
+     // var app=new Vue({
+     // 	el:"#app",
+     // 	components:{
+     // 		TodoItem:TodoItem
+     // 	},
+     // 	data:{
+     // 		list:[],
+     //        inputValue:''
+     // 	},
+     // 	methods:{
+     // 		handleClickBtn:function(){
+     //         this.list.push(this.inputValue);
+     //         this.inputValue=''
+     // 		},
+     // 		handleItemDelete:function(index){
+     //            //删除该元素
+     // 			this.list.splice(index,1);
+     // 		}
+     // 	}
+     // })
+     
+    //Vue的生命周期函数是指Vue实例在某一时间点会自动执行的函数
+    // var vm=new Vue({
+    // 	el:"#app",
+    // 	template:"<div>{{test}}</div>",
+    // 	data:{
+    // 		test:"hello world"
+    // 	},
+    //     beforeCreate:function(){
+    //       console.log('beforeCreate');
+    //     },
+    //     created:function(){
+    //     	console.log('created');
+    //     },
+    //     beforeMount:function(){
+    //     	console.log(this.$el);
+    //     	console.log('beforeMount');
+    //     },
+    //     mounted:function(){
+    //     	console.log(this.$el);
+    //     	console.log("mounted");
+    //     },
+    //     beforeUpdate:function(){
+    //     	console.log('beforeUpdate');
+    //     },
+    //     updated:function(){
+    //     	console.log('updated');
+    //     },
+    //     beforeDestroy:function(){
+    //     	console.log('beforeDestroy');
+    //     },
+    //     destroyed:function(){
+    //     	console.log('destroyed');
+    //     }
+    // }) 
+    
+    var vm=new Vue({
+    	el:"#app",
+    	data:{
+    		firstName:"Min",
+    		lastName:"Yuan",
+            age:22
+    	},
+    	//侦听器  也具有缓存机制 
+    	// watch:{
+     //      firstName:function(){
+     //        this.fullName=this.firstName+" "+this.lastName;
+     //        },
+     //        lastName:function(){
+     //          this.fullName=this.firstName+" "+this.lastName;
+     //        }
+    	// }
+    	 
+    	// 方法
+    	// methods:{
+    	// 	fullName:function(){
+    	// 		return this.firstName+" "+this.lastName;
+    	// 	}
+    	// }
+    
+    	// 计算属性  具有缓存机制  
+    	// computed:{
+    	// 	fullName:function(){
+    	// 		return this.firstName+" "+this.lastName;
+    	// 	}
+    	// },
+         
+        //computed属性的setter和getter
+        computed:{
+        	// 设置计算属性的值   默认只有getter
+        	fullName:{
+        		get:function(){
+                 return this.firstName+" "+this.lastName;
+        		},
+        		set:function(newValue){
+                   var arr= newValue.split(' ');
+                   this.firstName=arr[0];
+                   this.lastName=arr[1];
+        		}
+        	}
+        }
+    }) 
+    
+   </script>
+</body>
+</html>

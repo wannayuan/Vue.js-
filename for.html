@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<title>Vue中的列表渲染</title>
+	<script type="text/javascript" src='./vue.js'></script>
+</head>
+<body>
+  <div id="root">
+   <!-- key值为唯一的标识 -->
+ <!--   <template v-for="(item,index) of list" :key="item.id">
+      <div>
+        {{item.text}}-{{index}}
+     </div>
+     <span>
+       {{item}}
+     </span>
+   </template> -->
+   <div v-for='(item,key,index) of list'>
+      {{item}}---{{key}}---{{index}}
+   </div>
+  </div> 
+  <script type="text/javascript">
+   // Vue可以循环数组和对象
+   // 直接对数组进行操作，页面不会重新渲染，只能通过数组的变异方法或重新引用来渲染页面
+   // 数组的7个变异方法  pop push shift unshift splice reverse sort 
+   // 可以对对象中的某个键直接赋值，但直接给对象添加新的属性，页面不会重新渲染
+    var vm=new Vue({
+    	el:"#root",
+    	data:{
+         list:{
+         	name:'yuanmin',
+         	age:22,
+         	gender:"female",
+         	salary:'secret',
+         }
+    	}
+    })
+  </script>
+</body>
+</html>

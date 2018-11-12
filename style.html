@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<title>Vue中的样式绑定</title>
+	<style type="text/css">
+      .activated{
+      	color: red;
+      }
+	</style>
+	<script type="text/javascript" src='./vue.js'></script>
+</head>
+<body>
+   <div id="root" :class='{activated:activated}' @click="handleDivClick">
+      hello world
+      <div :style="[styleObj,{backgroundColor:'blue'}]" @click="handlePClick">hello world1</div>
+   </div>
+   <script type="text/javascript">
+     var vm=new Vue({
+     	el:"#root",
+        data:{
+        	activated:false,
+        	styleObj:{
+        		color:"red",
+        		fontSize:"16px",
+        	}
+        },
+        // 点击切换div的字体颜色
+        methods:{
+         handleDivClick:function(){
+         	this.activated=!this.activated;
+         },
+         handlePClick:function(){
+         	this.styleObj.color=this.styleObj.color==='red'?'black':'red';
+         }
+        }
+     })
+   </script>
+</body>
+</html>
