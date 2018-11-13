@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<title>父子组件之间传值</title>
+    <script type="text/javascript" src='./vue.js'></script>
+</head>
+<body>
+
+  <div id="root">
+     <!--父元素通过属性给子组件传值  在父组件中监听子组件向外触发的事件-->
+     <counter :counter='0' @inc='handleTotal'></counter>
+     <counter :counter='1' @inc='handleTotal'></counter>
+     <!-- 计算总和 -->
+     <div>{{total}}</div>
+  </div>
+
+<script type="text/javascript">
+   
+
+   var counter={
+
+   	// 子组件通过props属性接受父元素传递的数据
+   	props: ['counter'],
+   	data: function(){
+      
+      return {
+      	number:this.counter,
+      }
+   	
+   	},
+   	template:"<div @click='handleCounter'>{{number}}</div>",
+   	methods:{
+   		handleCounter:function(){
+   			this.number++;  //在子组件中直接修改传递过来的数据会有警告
+   			//如果在子组件中需要修改父组件传递过来的数据，可以在data中赋值数据再修改
+   			//子组件通过$emit()向父组件传递数据,可以传递参数
+   			this.$emit('inc',1);
+   		}
+   	}
+   }
+   // 局部注册组件
+   var vm=new Vue({
+   	el:"#root",
+    components:{
+    	counter:counter
+    },
+    data:{
+       total:1
+    },
+    methods:{
+    	handleTotal:function(step){
+          this.total+=step;
+    	}
+    }
+   })
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<title>使用vue组件的细节点</title>
+	<script type="text/javascript" src='./vue.js'></script>
+</head>
+<body>
+
+    <div id="root">
+<!--          <table>
+           <tbody>
+             <tr is='row'></tr>
+             <tr is='row'></tr>
+             <tr is='row'></tr>
+             <tr is='row'></tr>
+           </tbody>
+         </table> -->
+         <counter ref='one' @change='handleCount'></counter>
+         <counter ref='two' @change='handleCount'></counter>
+         <counter ref='three' @change='handleCount'></counter>
+         <div>{{totalNumber}}</div>
+         <div ref='click' @click='handleClick'>hello world</div>
+    </div>
+
+  
+  <script type="text/javascript">
+     
+     // 细节1
+     // 在h5的某些标签中只能使用特定的元素，否则可能出现小bug，例如table中只能出现tr ul，ol 只能包含li  select只能包含option,而某些情况写我们需要将这些标签设置成一个模板，为了解决这个小Bug,我们需要使用is属性
+     Vue.component('row',{
+     	template:"<tr><td>{{content}}</td></tr>",
+      
+      //细节2 
+      // 在子组件中定义data时,data必须是一个返回对象的函数，这个函数的对象是相互独立的，对应每个子组件
+     	data:function(){
+     		return {
+     			content:"this is a row"
+     		}
+     	},
+	 
+     });
+
+     Vue.component('counter',{
+
+     	//细节3
+     	// 尽管我们在Vue中尽量通过改变数据来操作Dom元素，但有的时候我们必须直接操作Dom元素，这是我们需要用到ref属性给元素命名
+     	// 注意  在dom元素上使用ref获取的是一个dom元素  使用innerHTML获取内容
+     	// 在组件上命名获取的是一个组件的引用  使用data里面的数据获取内容
+     	
+     	//实例
+     	//制作一个简单的计数器 计算点击元素的次数并求和
+     	 
+     	template:"<div @click='handleCounter'>{{number}}</div>",
+     	data:function(){
+     		return {
+     			number:0
+     		};
+     	},
+     	methods:{
+     		handleCounter:function(){
+     			this.number++;
+     			// 向外触发change事件
+     			this.$emit('change');
+     		}
+     	}
+     })
+
+
+      var vm=new Vue({
+      	el:"#root",
+      	data:{
+      		totalNumber:0
+      	},
+      	methods:{
+      		// 获取每个counter的number
+      		// 
+      		handleCount:function(){
+      			// 组件的引用   使用data里面的变量获取内容
+      			console.log(this.$refs.one.number);
+               //通过this.$refs.ref获取dom元素
+               this.totalNumber=this.$refs.one.number+this.$refs.two.number+this.$refs.three.number;
+      		},
+      		handleClick:function(){
+      			// dom元素  使用innerHTML获取内容
+      			console.log(this.$refs.click.innerHTML);
+      		}
+      	}
+
+      })
+
+  </script>
+
+</body>
+</html>
